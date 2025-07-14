@@ -1,12 +1,11 @@
-import { Component, inject, Input } from '@angular/core';
-import { Book, BooksService } from './books.service';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
-import { EMPTY, NEVER } from 'rxjs';
-import { httpResource } from '@angular/common/http';
-import { API_URL } from '../auth/auth.service';
+import { Component, inject } from '@angular/core';
+import { BooksService } from './books.service';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
+  imports: [RouterLink],
   template: `
     <div class="container" id="container">
       <h2>Book List</h2>
@@ -14,7 +13,9 @@ import { API_URL } from '../auth/auth.service';
         @if (books.hasValue()) {
           @for (book of books.value(); track book.isbn) {
             <li>
-              <strong>{{ book.title }}</strong> by {{ book.author }}
+              <a [routerLink]="[book.isbn]"
+                ><strong>{{ book.title }}</strong> by {{ book.author }}
+              </a>
             </li>
           }
         }
